@@ -1,0 +1,4 @@
+# Exclude vim backup files
+*~
+*.swp
+
