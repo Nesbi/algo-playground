@@ -8,10 +8,11 @@ var searchBFS = (graph, start, goals) => {
         let curVertex = open.pop();
         // Found goal
         if(goals.includes(curVertex))
-            return backtrack(curVertex,paths);
+            return backtrack(start,curVertex,paths);
 
         // Get all children and add them to open nodes
-        graph.getEdges(curVertex).forEach(edge => {
+        console.log(graph.getEdges(curVertex));
+	graph.getEdges(curVertex).forEach(edge => {
             const child = edge.vertex2;
             if(!closed.includes(child) && !open.includes(child)){
                 paths[child] = edge;
@@ -33,5 +34,6 @@ var backtrack = (startVertex, endVertex, paths) => {
 
         curVertex = edge.vertex1;
     }
+    console.log(path);
     return path;
 }
