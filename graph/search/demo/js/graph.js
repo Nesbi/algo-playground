@@ -9,7 +9,8 @@ class Edge {
 
 let vertexCount = 0;
 class Vertex {
-    constructor(label = ("v"+vertexCount++)){
+    constructor(content,label = ("v"+vertexCount++)){
+        this.content = content;
         this.label = label;
     }
 }

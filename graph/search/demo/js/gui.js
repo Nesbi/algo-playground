@@ -1,14 +1,16 @@
-var canvas = document.getElementsByTagName("canvas")[0];
-var context = canvas.getContext("2d");
+let canvas = document.getElementsByTagName("canvas")[0];
+let context = canvas.getContext("2d");
 resizeCanvas();
-displayInstructions();
-var mouseClicked = false;
-var path = [];
-var simplePath = [];
+let mouseClicked = false;
+let rows = 10;
+let cols = 10;
+initBackground();
+let graph;
+let path;
 
 
 // Canvas
-canvas.onmousedown = (e) => {
+/*canvas.onmousedown = (e) => {
     mouseClicked = true;
     path = [];
     clearCanvas();
@@ -21,7 +23,7 @@ canvas.onmouseup = (e) => {
 
 canvas.onmousemove = (e) =>  {
     if (mouseClicked) {
-        var point = {x:e.clientX,y:e.clientY}
+        let point = {x:e.clientX,y:e.clientY}
         path.push(point);
         drawPoint(point);        
 
@@ -32,11 +34,11 @@ canvas.onmousemove = (e) =>  {
 }
 
 // Simplify when changing epsilon 
-var epsilonText = document.getElementById("fitting-epsilon");
+let epsilonText = document.getElementById("fitting-epsilon");
 epsilonText.addEventListener('change', () => executeSimplify())
 
 function executeSimplify(){
-    var epsilon = epsilonText.value;
+    let epsilon = epsilonText.value;
     if(epsilon < 0){
     	epsilon = 0;
 	epsilonText.value = epsilon;
@@ -48,41 +50,28 @@ function executeSimplify(){
         drawPath(simplePath);
     }
 }
-
+*/
 // Draw
-function drawPath(path,color='#000'){
-    var prevPoint = undefined;
-    for(id in path){
-        var point = path[id];
-        drawPoint(point,color);
-        if(prevPoint){
-            drawLine(prevPoint,point,color);
-        }
-        prevPoint = point;
-    }
+function initBackground(){
+    clearCanvas();
+    for(let x=0 ; x < cols; x++)
+        for(let y=0; y < rows; y++)
+            drawVertex({'x':x,'y':y}, "#ccc");
 }
-
-function drawLine(pointA,pointB,color='#000'){
-    context.beginPath();
-    context.moveTo(pointA.x,pointA.y);
-    context.lineTo(pointB.x,pointB.y);
-    context.lineWidth = 5;
-    context.strokeStyle = color;
+function drawGraph(graph){
+    graph.vertices.forEach(vertex => drawVertex(vertex));
+}
+function drawVertex(position, color='#000'){
+    const vertexSize = Math.min(canvas.width/cols,canvas.height/rows);
+    const x = position.x*vertexSize;
+    const y = position.y*vertexSize;
+    // Colorize
+    context.fillStyle = color;
+    context.fillRect(vertexSize, vertexSize, x, y);
+    // Add background border (to distinguish between vertices)
+    context.strokeStyle = '#fff';
+    context.rect(vertexSize, vertexSize, x, y);
     context.stroke();
-}
-
-function drawPoint(point,color='#000'){
-    context.beginPath();
-    context.arc(point.x, point.y, 3, 0, Math.PI * 2, false);
-    context.lineWidth = 3;
-    context.strokeStyle = color;
-    context.stroke();
-}
-
-function displayInstructions(){
-    context.font = '40px Arial';
-    context.textAlign='center'
-    context.fillText("Draw with your mouse.",canvas.width/2,canvas.height/2);
 }
 
 function clearCanvas(){
@@ -99,10 +88,10 @@ function resizeCanvas(){
 window.onresize = function(){
     clearCanvas();
     resizeCanvas();
-    if(simplePath.length > 0){
-        drawPath(path,'#ccc');
-        drawPath(simplePath)
-    }else{
+
+    // Redraw
+    initBackground();
+    drawGraph(graph);
+    if(path) 
         drawPath(path);
-    }
 }
