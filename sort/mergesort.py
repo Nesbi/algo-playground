@@ -1,5 +1,3 @@
-import sys
-
 def sort(elems):
     if len(elems) <= 1:
         return elems
@@ -17,8 +15,9 @@ def merge(left, right):
     # Append rest
     return result + left + right
     
-
+# command line interface
 if __name__ == "__main__":
+    import sys
     elems = sys.argv[1:]
     if all(e.isdigit() for e in elems):
         elems = [int(e) for e in elems]
