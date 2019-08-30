@@ -1,4 +1,5 @@
 # Exclude vim backup files
 *~
 *.swp
+*pyc
 *__pychache__*
