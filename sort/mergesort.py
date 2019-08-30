@@ -14,11 +14,3 @@ def merge(left, right):
             result.append(right.pop(0))
     # Append rest
     return result + left + right
-    
-# command line interface
-if __name__ == "__main__":
-    import sys
-    elems = sys.argv[1:]
-    if all(e.isdigit() for e in elems):
-        elems = [int(e) for e in elems]
-    print(" ".join(str(e) for e in sort(elems)))

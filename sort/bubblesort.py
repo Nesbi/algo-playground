@@ -1,5 +1,3 @@
-import sys
-
 def sort(elements):
     while True:
         swapped = False
@@ -13,9 +11,3 @@ def sort(elements):
         if not swapped:
             break
     return elements
-
-if __name__ == "__main__":
-    elements = sys.argv[1:]
-    if all(e.isdigit() for e in elements):
-        elements = [int(e) for e in elements]
-    print(" ".join(str(e) for e in sort(elements)))
