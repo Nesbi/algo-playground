@@ -22,18 +22,3 @@ def split[A](list: Seq[A]): (Seq[A], Seq[A]) = {
 	val half = Math.round(list.length/2)
 	(list.take(half), list.takeRight(list.length-half))
 }
-
-// command line interface
-import scala.util.{Try, Success}
-@main def main(args: String*) = {
-	val sorted = Try(args.map(_.toInt)) match {
-		case Success(i) => sort(i)
-		case _ => Try(args.map(_.toDouble)) match {
-			case Success(d) => sort(d)
-			case _ => sort(args)
-		}
-	}
-	println(sorted.mkString(" "))
-}
-
-
